@@ -29,8 +29,10 @@ namespace backend_api.Services
             );
         }
 
-        public void Publish(string message)
+        public string Publish(string message)
         {
+            var fileName = Path.GetFileName(new Uri(message).LocalPath).Split('?')[0];
+
             var body = Encoding.UTF8.GetBytes(message);
 
             _channel.BasicPublish(
@@ -39,6 +41,8 @@ namespace backend_api.Services
                 basicProperties: null,
                 body: body
             );
+
+            return fileName;
         }
     }
 }

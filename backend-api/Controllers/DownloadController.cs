@@ -23,8 +23,12 @@ namespace backend_api.Controllers
                 return BadRequest("URL is required.");
 
             _publisher.Publish(url);
-            return Ok("URL enqueued successfully.");
+
+            var fileName = Path.GetFileName(new Uri(url).LocalPath).Split('?')[0];
+            return Ok(fileName);
         }
+
+
         [HttpGet("status")]
         public IActionResult GetStatus([FromQuery] string filename)
         {
